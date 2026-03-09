@@ -26,19 +26,38 @@
 
     <hr>
 
-    <h2>📖 Historias</h2>
+    <h2>📖 Historias recientes</h2>
 
     <h3>Historia #1</h3>
-    <p>Esto le paso a una chica donde El mister F 'todos saben de quien hablo' intento pedir fotos sexuales a la chica.
-        mencionar que la chica era menor de edad.</p>
+    <p>Había una persona que participaba en cada modelo de naciones unidas que podía, pero no precisamente por vocación diplomática. Su estrategia era simple: llegar temprano para agarrar el mejor sitio en la mesa del almuerzo, desaparecer durante las sesiones plenarias, y reaparecer misteriosamente justo cuando repartían la merienda. Nunca preparaba una resolución, nunca estudiaba el país que representaba, pero sabía exactamente qué se estaba cocinando — y no nos referimos a política internacional. Lo más curioso es que siempre terminaba siendo de los más informados del evento, no por los discursos, sino porque se pasaba los pasillos recopilando cada chisme disponible. Al final del día, mientras otros debatían sobre crisis globales, esta persona ya sabía quién le gustaba a quién, quién había peleado con quién, y qué delegación tenía el mejor lunch. Una leyenda a su manera.</p>
 
     <h3>Historia #2</h3>
-    <p>Vi a Gelson robandole el dinero de la merienda a un chico.</p>
+    <p>Vi a alguien robandole el dinero de la merienda a un chico.</p>
+
+    <hr>
+
+    <h2>🗃️ Historias anteriores 
+      <button onclick="toggleHistorias()" style="background:#ff0000; color:#ffffff; border:none; padding:6px 16px; font-size:14px; cursor:pointer; letter-spacing:1px; margin-left:10px;">
+        VER
+      </button>
+    </h2>
+
+    <div id="historiasViejas" style="display:none;">
+      <h3>Historia #A1</h3>
+      <p>Aquí irán las historias viejas cuando las muevas...</p>
+    </div>
+
+    <hr>
+
+    <h2>📩 Comparte tu historia</h2>
+    <p>¿Tienes algo que contar? Envíalo de forma anónima aquí:</p>
+    <p>👉 <a href="https://docs.google.com/forms/d/e/1FAIpQLScJXa2MnkqdpDf5YPSnR5CqCqTky10bjcARLaUrjzVdtqr2GA/viewform?usp=publish-editor" target="_blank" style="color:#ff0000;">Formulario anónimo</a></p>
 
     <hr>
 
     <h2>💬 Comentarios y Opiniones</h2>
-    <p>Deja tu opinión aquí abajo de forma anónima.</p>
+    <p>Deja tu opinión aquí abajo.</p>
+    <p style="color:#ff0000; font-size:14px;">⚠️ Los comentarios son públicos y pueden ser vistos por cualquier persona que entre a esta página.</p>
 
     <div id="disqus_thread"></div>
     <script>
@@ -54,6 +73,18 @@
     <script>
       function entrar() {
         document.getElementById('terminos').style.display = 'none';
+      }
+
+      function toggleHistorias() {
+        const div = document.getElementById('historiasViejas');
+        const btn = event.target;
+        if (div.style.display === 'none') {
+          div.style.display = 'block';
+          btn.textContent = 'OCULTAR';
+        } else {
+          div.style.display = 'none';
+          btn.textContent = 'VER';
+        }
       }
     </script>
 
