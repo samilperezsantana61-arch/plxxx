@@ -2,10 +2,33 @@
 <html lang="es">
   <head>
     <title>PLXXX - Lo que no se dice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilos.css">
+    <style>
+      /* Animación de entrada */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate {
+        animation: fadeIn 1s ease;
+      }
+
+      /* Para celular */
+      @media (max-width: 600px) {
+        body { padding: 20px 15px; }
+        h1 { font-size: 28px; }
+        h2 { font-size: 20px; }
+        button { width: 100%; margin-bottom: 10px; }
+        input { width: 100%; }
+        textarea { width: 100%; }
+      }
+    </style>
   </head>
   <body>
-<img src="logo-plxxx.svg" alt="Logo PLXXX" style="width:150px; display:block; margin: 20px auto;">
+
+    <img src="logo-plxxx.svg" alt="Logo PLXXX" style="width:150px; display:block; margin: 20px auto;">
+
     <!-- Pantalla de términos -->
     <div id="terminos" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#0a0a0a; z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px;">
       <h1 style="color:#ff0000; font-family:Impact; letter-spacing:3px;">⚠️ AVISO</h1>
@@ -19,8 +42,15 @@
       </button>
     </div>
 
-    <h1>PLXXX — Lo que no se dice</h1>
-    <p>Un espacio donde se documentan situaciones inusuales ocurridas dentro de las actividades del PLXXX. Todos los relatos son anónimos.</p>
+    <!-- Banner nueva historia -->
+    <div style="background:#ff0000; color:#ffffff; text-align:center; padding:10px; font-family:Impact; letter-spacing:3px; font-size:16px;">
+      🔴 NUEVA HISTORIA DISPONIBLE
+    </div>
+
+    <div class="animate">
+      <h1>PLXXX — Lo que no se dice</h1>
+      <p>Un espacio donde se documentan situaciones inusuales ocurridas dentro de las actividades del PLXXX. Todos los relatos son anónimos.</p>
+    </div>
 
     <!-- Contador de historias -->
     <p style="color:#ff0000; font-size:14px; letter-spacing:1px;">📌 Total de historias publicadas: <strong id="contador"></strong></p>
@@ -29,6 +59,15 @@
     <button onclick="compartir()" style="background:#ff0000; color:#ffffff; border:none; padding:10px 24px; font-size:14px; cursor:pointer; letter-spacing:2px; margin-bottom:10px;">
       🔗 COMPARTIR PÁGINA
     </button>
+
+    <hr>
+
+    <!-- Encuesta -->
+    <h2>📊 Encuesta</h2>
+    <p>¿Crees que el PLXXX es transparente?</p>
+    <button onclick="votar('si')" style="background:#ff0000; color:#ffffff; border:none; padding:10px 20px; cursor:pointer; margin-right:10px; letter-spacing:1px;">✅ SÍ</button>
+    <button onclick="votar('no')" style="background:#333333; color:#ffffff; border:none; padding:10px 20px; cursor:pointer; letter-spacing:1px;">❌ NO</button>
+    <p id="resultado-encuesta" style="color:#cccccc; margin-top:10px;"></p>
 
     <hr>
 
@@ -41,7 +80,7 @@
     <h2>📖 Historias recientes</h2>
 
     <div class="historia">
-      <h3>Historia #1</h3>
+      <h3>⭐ Historia #1 <span style="background:#ff0000; color:#fff; font-size:11px; padding:2px 8px; letter-spacing:1px;">DESTACADA</span></h3>
       <p>Había una persona que participaba en cada modelo de naciones unidas que podía, pero no precisamente por vocación diplomática. Su estrategia era simple: llegar temprano para agarrar el mejor sitio en la mesa del almuerzo, desaparecer durante las sesiones plenarias, y reaparecer misteriosamente justo cuando repartían la merienda. Nunca preparaba una resolución, nunca estudiaba el país que representaba, pero sabía exactamente qué se estaba cocinando — y no nos referimos a política internacional. Lo más curioso es que siempre terminaba siendo de los más informados del evento, no por los discursos, sino porque se pasaba los pasillos recopilando cada chisme disponible. Al final del día, mientras otros debatían sobre crisis globales, esta persona ya sabía quién le gustaba a quién, quién había peleado con quién, y qué delegación tenía el mejor lunch. Una leyenda a su manera.</p>
     </div>
 
@@ -52,7 +91,24 @@
 
     <hr>
 
-    <h2>🗃️ Historias anteriores 
+    <!-- Personaje de la semana -->
+    <h2>🏆 Personaje de la semana</h2>
+    <div style="border:1px solid #ff0000; padding:20px; background:#1a1a1a;">
+      <h3 style="color:#ff0000;">Anónimo de la semana</h3>
+      <p>Pon aquí la historia o descripción del personaje de la semana. Cámbialo cada semana manualmente.</p>
+    </div>
+
+    <hr>
+
+    <!-- ¿Sabías que? -->
+    <h2>❓ ¿Sabías que?</h2>
+    <div style="border-left:4px solid #ff0000; padding-left:15px; margin-bottom:15px;">
+      <p id="sabiasque" style="color:#cccccc; font-style:italic;"></p>
+    </div>
+
+    <hr>
+
+    <h2>🗃️ Historias anteriores
       <button onclick="toggleHistorias()" style="background:#ff0000; color:#ffffff; border:none; padding:6px 16px; font-size:14px; cursor:pointer; letter-spacing:1px; margin-left:10px;">
         VER
       </button>
@@ -129,6 +185,27 @@
         navigator.clipboard.writeText(window.location.href);
         alert('¡Link copiado! Compártelo con quien quieras 🔥');
       }
+
+      // Encuesta
+      let votos = { si: 0, no: 0 };
+      function votar(opcion) {
+        votos[opcion]++;
+        const total = votos.si + votos.no;
+        const psi = Math.round((votos.si / total) * 100);
+        const pno = Math.round((votos.no / total) * 100);
+        document.getElementById('resultado-encuesta').textContent =
+          `✅ Sí: ${psi}%  |  ❌ No: ${pno}%  (${total} votos)`;
+      }
+
+      // ¿Sabías que?
+      const datos = [
+        "¿Sabías que muchos participantes del PLXXX van más por la comida que por aprender?",
+        "¿Sabías que hay delegados que nunca leen el estudio de país que representan?",
+        "¿Sabías que los pasillos del PLXXX son más informativos que las sesiones?",
+        "¿Sabías que el chisme viaja más rápido que cualquier resolución en el PLXXX?"
+      ];
+      const aleatorio = datos[Math.floor(Math.random() * datos.length)];
+      document.getElementById('sabiasque').textContent = aleatorio;
     </script>
 
   </body>
