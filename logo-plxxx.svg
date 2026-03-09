@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Fondo negro -->
+  <rect width="400" height="400" fill="#0a0a0a"/>
+  
+  <!-- Semicírculo de segmentos en rojo y gris oscuro -->
+  <!-- Segmento 1 -->
+  <path d="M200 220 L80 310 A140 140 0 0 1 68 280 Z" fill="#ff0000"/>
+  <!-- Segmento 2 -->
+  <path d="M200 220 L68 280 A140 140 0 0 1 72 248 Z" fill="#cc0000"/>
+  <!-- Segmento 3 -->
+  <path d="M200 220 L72 248 A140 140 0 0 1 85 210 Z" fill="#ff0000"/>
+  <!-- Segmento 4 -->
+  <path d="M200 220 L85 210 A140 140 0 0 1 108 175 Z" fill="#cc0000"/>
+  <!-- Segmento 5 -->
+  <path d="M200 220 L108 175 A140 140 0 0 1 140 148 Z" fill="#ff0000"/>
+  <!-- Segmento 6 -->
+  <path d="M200 220 L140 148 A140 140 0 0 1 178 132 Z" fill="#cc0000"/>
+  <!-- Segmento 7 (top center) -->
+  <path d="M200 220 L178 132 A140 140 0 0 1 222 132 Z" fill="#ff0000"/>
+  <!-- Segmento 8 -->
+  <path d="M200 220 L222 132 A140 140 0 0 1 260 148 Z" fill="#cc0000"/>
+  <!-- Segmento 9 -->
+  <path d="M200 220 L260 148 A140 140 0 0 1 292 175 Z" fill="#ff0000"/>
+  <!-- Segmento 10 -->
+  <path d="M200 220 L292 175 A140 140 0 0 1 315 210 Z" fill="#cc0000"/>
+  <!-- Segmento 11 -->
+  <path d="M200 220 L315 210 A140 140 0 0 1 328 248 Z" fill="#ff0000"/>
+  <!-- Segmento 12 -->
+  <path d="M200 220 L328 248 A140 140 0 0 1 332 280 Z" fill="#cc0000"/>
+  <!-- Segmento 13 -->
+  <path d="M200 220 L332 280 A140 140 0 0 1 320 310 Z" fill="#ff0000"/>
+
+  <!-- Círculo interior negro para efecto -->
+  <circle cx="200" cy="220" r="90" fill="#0a0a0a"/>
+
+  <!-- Línea horizontal roja -->
+  <rect x="55" y="295" width="290" height="8" rx="4" fill="#ff0000"/>
+  
+  <!-- Chevron hacia abajo -->
+  <polyline points="175,303 200,328 225,303" fill="none" stroke="#ff0000" stroke-width="8" stroke-linejoin="round"/>
+
+  <!-- Espacios entre segmentos -->
+  <circle cx="200" cy="220" r="140" fill="none" stroke="#0a0a0a" stroke-width="3"/>
+
+  <!-- Texto PLXXX -->
+  <text x="200" y="215" font-family="Impact" font-size="36" fill="#ff0000" text-anchor="middle" letter-spacing="6">PLXXX</text>
+  <text x="200" y="245" font-family="Arial" font-size="11" fill="#888888" text-anchor="middle" letter-spacing="2">LO QUE NO SE DICE</text>
+
+</svg>
