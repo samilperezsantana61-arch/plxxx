@@ -37,43 +37,23 @@
 
     <hr>
 
-    <h2>💬 Opiniones</h2>
+    <h2>💬 Comentarios y Opiniones</h2>
+    <p>Deja tu opinión aquí abajo de forma anónima.</p>
 
-    <div id="opiniones">
-      <p>Increible lo de Gelson..</p>
-      <p>Que asco todo eso.</p>
-      <p>Gelson es muy bueno como para hacer eso</p>
-      <p>Mercedes sabe de todo esto?</p>
-    </div>
-
-    <textarea id="nuevaOpinion" placeholder="Escribe tu opinión aquí..." rows="3"></textarea>
-    <br>
-    <button onclick="agregarOpinion()">Publicar opinión</button>
-
-    <hr>
-
-    <h2>📩 Comparte tu historia</h2>
-    <p>¿Tienes algo que contar? Escríbelo aquí de forma anónima.</p>
-    <textarea placeholder="Escribe tu historia aquí..." rows="6" cols="50"></textarea>
-    <br>
-    <button>Enviar</button>
+    <div id="disqus_thread"></div>
+    <script>
+        (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://plxxx-lo-que-no-se-dice.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
     <script>
       function entrar() {
         document.getElementById('terminos').style.display = 'none';
-      }
-
-      function agregarOpinion() {
-        const texto = document.getElementById('nuevaOpinion').value;
-
-        if (texto.trim() === '') return;
-
-        const div = document.getElementById('opiniones');
-        const nueva = document.createElement('p');
-        nueva.textContent = texto;
-        div.appendChild(nueva);
-
-        document.getElementById('nuevaOpinion').value = '';
       }
     </script>
 
