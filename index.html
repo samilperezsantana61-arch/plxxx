@@ -110,6 +110,7 @@
         align-items: center;
         justify-content: center;
         padding: 40px;
+        text-align: center;
       }
 
       .pantalla h2 {
@@ -117,14 +118,12 @@
         font-family: Impact;
         letter-spacing: 3px;
         font-size: 28px;
-        text-align: center;
         margin-bottom: 20px;
       }
 
       .pantalla p {
         color: #cccccc;
         max-width: 500px;
-        text-align: center;
         line-height: 1.8;
         font-family: Arial;
         letter-spacing: 1px;
@@ -152,21 +151,83 @@
         display: none;
         margin-bottom: 10px;
       }
+
+      /* Contador */
+      .contador-box {
+        display: flex;
+        gap: 20px;
+        margin: 20px 0;
+        z-index: 1;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .unidad {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .numero {
+        font-size: 60px;
+        color: #ff0000;
+        font-family: Impact;
+        text-shadow: 0 0 20px #ff0000;
+        letter-spacing: 2px;
+      }
+
+      .label {
+        color: #888888;
+        font-family: Arial;
+        font-size: 12px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-top: 5px;
+      }
+
+      .proximamente {
+        color: #ffffff;
+        font-size: 14px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        font-family: Arial;
+        margin-bottom: 10px;
+        z-index: 1;
+      }
     </style>
   </head>
   <body>
 
+    <!-- Pantalla contador — se muestra si no ha llegado a 0 -->
+    <div id="pantalla-contador" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#0a0a0a; z-index:998; flex-direction:column; align-items:center; justify-content:center;">
+      <img src="logo-plxxx.svg" style="width:150px; margin-bottom:20px; z-index:1;">
+      <h1 style="z-index:1;">PLXXX</h1>
+      <div class="linea"></div>
+      <p class="proximamente">🔴 Próximamente, !Manda tu historia!.</p>
+      <div class="contador-box">
+        <div class="unidad"><span class="numero" id="dias">00</span><span class="label">Días</span></div>
+        <div class="unidad"><span class="numero" id="horas">00</span><span class="label">Horas</span></div>
+        <div class="unidad"><span class="numero" id="minutos">00</span><span class="label">Minutos</span></div>
+        <div class="unidad"><span class="numero" id="segundos">00</span><span class="label">Segundos</span></div>
+      </div>
+
+      <p style="color:#888888; font-family:Arial; font-size:13px; letter-spacing:2px; text-transform:uppercase; margin-bottom:15px; z-index:1;">¿Tienes una historia? Mándala antes de la apertura</p>
+      <button class="btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScJXa2MnkqdpDf5YPSnR5CqCqTky10bjcARLaUrjzVdtqr2GA/viewform?usp=publish-editor', '_blank')" style="z-index:1;">
+        📩 ENVIAR HISTORIA
+      </button>
+    </div>
+
     <!-- Pantalla 1 — Términos -->
     <div class="pantalla" id="pantalla-terminos" style="display:none;">
-      <h2>⚠️ AVISO (ESTE MENSAJE SALDRA DE NUEVO)</h2>
-      <p>El contenido de esta página refleja experiencias y opiniones anónimas de terceros. Los administradores de este sitio <strong style="color:#ff0000;">no se hacen responsables</strong> por la veracidad de los relatos publicados. Al entrar aceptas que entiendes QUE LA ADMINISTRACION NO ES RESPONSABLE.</p>
+      <h2>⚠️ AVISO</h2>
+      <p>El contenido de esta página refleja experiencias y opiniones anónimas de terceros. Los administradores de este sitio <strong style="color:#ff0000;">no se hacen responsables</strong> por la veracidad de los relatos publicados. Al entrar aceptas que entiendes esto.</p>
       <button class="btn" onclick="aceptarTerminos()">ACEPTO — CONTINUAR</button>
     </div>
 
     <!-- Pantalla 2 — Contraseña -->
     <div class="pantalla" id="pantalla-contra" style="display:none;">
       <h2>🔐 ACCESO RESTRINGIDO</h2>
-      <p style="color:#ff0000; font-family:Arial; letter-spacing:1px; text-transform:none;">¿Cuál es el abreviativo de la Comisión Organización Mundial de la Salud?</p>
+      <p style="color:#ff0000;">¿Cuál es el abreviativo de la Comisión Organización Mundial de la Salud?</p>
       <input id="inputContra" type="text" placeholder="Tu respuesta..." maxlength="10">
       <p class="error" id="error-contra">❌ Respuesta incorrecta. Inténtalo de nuevo.</p>
       <button class="btn" onclick="verificarContra()">ENTRAR</button>
@@ -191,8 +252,44 @@
         document.body.appendChild(p);
       }
 
-      // Verificar si ya entró en esta sesión
-      if (!sessionStorage.getItem('acceso')) {
+      // Fecha de lanzamiento — 3 días desde ahora
+      const lanzamiento = new Date();
+      lanzamiento.setDate(lanzamiento.getDate() + 3);
+      lanzamiento.setHours(0, 0, 0, 0);
+
+      function actualizarContador() {
+        const ahora = new Date().getTime();
+        const distancia = lanzamiento - ahora;
+
+        if (distancia <= 0) {
+          // Contador llegó a 0 — mostrar página normal
+          document.getElementById('pantalla-contador').style.display = 'none';
+          document.getElementById('pantalla-terminos').style.display = 'flex';
+          return;
+        }
+
+        const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+        document.getElementById('dias').textContent = String(dias).padStart(2, '0');
+        document.getElementById('horas').textContent = String(horas).padStart(2, '0');
+        document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
+        document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
+      }
+
+      // Verificar si el contador ya terminó
+      const ahora = new Date().getTime();
+      const distancia = lanzamiento - ahora;
+
+      if (distancia > 0) {
+        // Mostrar contador
+        document.getElementById('pantalla-contador').style.display = 'flex';
+        actualizarContador();
+        setInterval(actualizarContador, 1000);
+      } else {
+        // Ya terminó, mostrar términos
         document.getElementById('pantalla-terminos').style.display = 'flex';
       }
 
@@ -214,11 +311,13 @@
         }
       }
 
-      // Enter para verificar
       document.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') verificarContra();
       });
     </script>
+
+  </body>
+</html>
 
   </body>
 </html>
