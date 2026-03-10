@@ -10,7 +10,7 @@
         to { opacity: 1; transform: translateY(0); }
       }
 
-      .animate { 
+      .animate {
         opacity: 0;
         animation: fadeIn 1.5s ease forwards;
       }
@@ -28,13 +28,99 @@
       .llena { color: #ff0000; }
       .vacia { color: #333333; }
 
+      /* Pantallas */
+      .pantalla {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: #0a0a0a;
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 20px;
+        box-sizing: border-box;
+        overflow-y: auto;
+      }
+
+      .pantalla h1, .pantalla h2 {
+        color: #ff0000;
+        font-family: Impact;
+        letter-spacing: 3px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .pantalla p {
+        color: #cccccc;
+        max-width: 500px;
+        text-align: center;
+        line-height: 1.8;
+        font-family: Arial;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      .pantalla input {
+        background: #1a1a1a;
+        border: 1px solid #ff0000;
+        color: #ffffff;
+        padding: 12px 20px;
+        font-size: 18px;
+        text-align: center;
+        letter-spacing: 4px;
+        font-family: Impact;
+        width: 100%;
+        max-width: 250px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+      }
+
+      .pantalla button {
+        background: #ff0000;
+        color: #ffffff;
+        border: none;
+        padding: 12px 30px;
+        font-size: 16px;
+        cursor: pointer;
+        letter-spacing: 2px;
+        width: 100%;
+        max-width: 250px;
+      }
+
+      /* Celular */
       @media (max-width: 600px) {
-        body { padding: 20px 15px; }
-        h1 { font-size: 28px; }
-        h2 { font-size: 20px; }
-        button { width: 100%; margin-bottom: 10px; }
-        input { width: 100%; }
-        textarea { width: 100%; }
+        body {
+          padding: 15px 12px !important;
+          word-wrap: break-word;
+          overflow-x: hidden;
+        }
+        h1 { font-size: 24px !important; }
+        h2 { font-size: 18px !important; }
+        h3 { font-size: 16px !important; }
+        p { font-size: 14px !important; }
+        button {
+          width: 100% !important;
+          margin-bottom: 10px !important;
+          box-sizing: border-box;
+        }
+        input, textarea {
+          width: 100% !important;
+          box-sizing: border-box;
+        }
+        img {
+          width: 100px !important;
+        }
+        .historia {
+          padding: 10px 0;
+        }
+        .pantalla {
+          padding: 20px 15px;
+        }
+        .pantalla h1 {
+          font-size: 22px !important;
+        }
       }
     </style>
   </head>
@@ -42,35 +128,37 @@
 
     <img src="logo-plxxx.svg" alt="Logo PLXXX" style="width:150px; display:block; margin: 20px auto;">
 
-    <!-- Pantalla de términos -->
-    <div id="terminos" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#0a0a0a; z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px;">
-      <h1 style="color:#ff0000; font-family:Impact; letter-spacing:3px;">⚠️ AVISO</h1>
-      <p style="color:#cccccc; max-width:600px; text-align:center; line-height:1.8;">
-        El contenido de esta página refleja experiencias y opiniones anónimas de terceros. 
-        Los administradores de este sitio <strong style="color:#ff0000;">no se hacen responsables</strong> 
-        por la veracidad de los relatos publicados. Al entrar aceptas que entiendes esto.
-      </p>
-      <button onclick="entrar()" style="background:#ff0000; color:#ffffff; border:none; padding:12px 30px; font-size:16px; cursor:pointer; letter-spacing:2px; margin-top:20px;">
-        ACEPTO — ENTRAR
-      </button>
+    <!-- Pantalla 1 — Términos -->
+    <div class="pantalla" id="terminos">
+      <h1>⚠️ AVISO</h1>
+      <p>El contenido de esta página refleja experiencias y opiniones anónimas de terceros. Los administradores de este sitio <strong style="color:#ff0000;">no se hacen responsables</strong> por la veracidad de los relatos publicados. Al entrar aceptas que entiendes esto.</p>
+      <button onclick="aceptarTerminos()">ACEPTO — CONTINUAR</button>
     </div>
 
-    <!-- Banner nueva historia -->
-    <div style="background:#ff0000; color:#ffffff; text-align:center; padding:10px; font-family:Impact; letter-spacing:3px; font-size:16px;">
+    <!-- Pantalla 2 — Contraseña -->
+    <div class="pantalla" id="pantalla-contra" style="display:none;">
+      <h2>🔐 ACCESO RESTRINGIDO</h2>
+      <p style="color:#ff0000;">¿Cuál es el abreviativo de la Comisión Organización Mundial de la Salud?</p>
+      <input id="inputContra" type="text" placeholder="Tu respuesta..." maxlength="10">
+      <p id="error-contra" style="color:#ff0000; font-size:13px; display:none; margin-bottom:10px;">❌ Respuesta incorrecta.</p>
+      <button onclick="verificarContra()">ENTRAR</button>
+    </div>
+
+    <!-- Banner -->
+    <div style="background:#ff0000; color:#ffffff; text-align:center; padding:10px; font-family:Impact; letter-spacing:3px; font-size:16px; margin-bottom:10px;">
       🔴 NUEVA HISTORIA DISPONIBLE
     </div>
 
-    <div id="contenido-principal">
-      <div class="animate" id="titulo-animado">
-        <h1>PLXXX — Lo que no se dice</h1>
-        <p>Un espacio donde se documentan situaciones inusuales ocurridas dentro de las actividades del PLXXX. Todos los relatos son anónimos.</p>
-      </div>
+    <!-- Título animado -->
+    <div id="titulo-animado" class="animate" style="opacity:0;">
+      <h1>PLXXX — Lo que no se dice</h1>
+      <p>Un espacio donde se documentan situaciones inusuales ocurridas dentro de las actividades del PLXXX. Todos los relatos son anónimos.</p>
     </div>
 
-    <!-- Contador de historias -->
+    <!-- Contador -->
     <p style="color:#ff0000; font-size:14px; letter-spacing:1px;">📌 Total de historias publicadas: <strong id="contador"></strong></p>
 
-    <!-- Botón de compartir -->
+    <!-- Botón compartir -->
     <button onclick="compartir()" style="background:#ff0000; color:#ffffff; border:none; padding:10px 24px; font-size:14px; cursor:pointer; letter-spacing:2px; margin-bottom:10px;">
       🔗 COMPARTIR PÁGINA
     </button>
@@ -80,15 +168,17 @@
     <!-- Encuesta -->
     <h2>📊 Encuesta</h2>
     <p>¿Te gusta el chisme?</p>
-    <button onclick="votar('si')" style="background:#ff0000; color:#ffffff; border:none; padding:10px 20px; cursor:pointer; margin-right:10px; letter-spacing:1px;">✅ SÍ</button>
-    <button onclick="votar('no')" style="background:#333333; color:#ffffff; border:none; padding:10px 20px; cursor:pointer; letter-spacing:1px;">❌ NO</button>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button onclick="votar('si')" style="background:#ff0000; color:#ffffff; border:none; padding:10px 20px; cursor:pointer; letter-spacing:1px; flex:1;">✅ SÍ</button>
+      <button onclick="votar('no')" style="background:#333333; color:#ffffff; border:none; padding:10px 20px; cursor:pointer; letter-spacing:1px; flex:1;">❌ NO</button>
+    </div>
     <p id="resultado-encuesta" style="color:#cccccc; margin-top:10px;"></p>
 
     <hr>
 
-    <!-- Barra de búsqueda -->
+    <!-- Buscador -->
     <h2>🔍 Buscar historias</h2>
-    <input id="buscador" type="text" placeholder="Escribe una palabra..." onkeyup="buscar()" style="width:100%; padding:10px; font-size:15px; border:1px solid #ff0000; background:#1a1a1a; color:#ffffff; margin-bottom:20px;">
+    <input id="buscador" type="text" placeholder="Escribe una palabra..." onkeyup="buscar()" style="width:100%; padding:10px; font-size:15px; border:1px solid #ff0000; background:#1a1a1a; color:#ffffff; margin-bottom:20px; box-sizing:border-box;">
 
     <hr>
 
@@ -116,7 +206,7 @@
 
     <!-- Personaje de la semana -->
     <h2>🏆 Personaje de la semana</h2>
-    <div style="border:1px solid #ff0000; padding:20px; background:#1a1a1a;">
+    <div style="border:1px solid #ff0000; padding:20px; background:#1a1a1a; box-sizing:border-box;">
       <h3 style="color:#ff0000;">Anónimo de la semana</h3>
       <p>El de la historia de Gelson, Historia#2.</p>
     </div>
@@ -163,71 +253,3 @@
         s.src = 'https://plxxx-lo-que-no-se-dice.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    <script>
-      const historias = document.querySelectorAll('.historia');
-      document.getElementById('contador').textContent = historias.length;
-
-      function entrar() {
-        document.getElementById('terminos').style.display = 'none';
-        // Reinicia la animación justo al aceptar
-        const el = document.getElementById('titulo-animado');
-        el.style.animation = 'none';
-        el.offsetHeight; // fuerza el reinicio
-        el.style.animation = 'fadeIn 1.5s ease forwards';
-      }
-
-      function toggleHistorias() {
-        const div = document.getElementById('historiasViejas');
-        const btn = event.target;
-        if (div.style.display === 'none') {
-          div.style.display = 'block';
-          btn.textContent = 'OCULTAR';
-        } else {
-          div.style.display = 'none';
-          btn.textContent = 'VER';
-        }
-      }
-
-      function buscar() {
-        const texto = document.getElementById('buscador').value.toLowerCase();
-        const historias = document.querySelectorAll('.historia');
-        historias.forEach(h => {
-          if (h.textContent.toLowerCase().includes(texto)) {
-            h.style.display = 'block';
-          } else {
-            h.style.display = 'none';
-          }
-        });
-      }
-
-      function compartir() {
-        navigator.clipboard.writeText(window.location.href);
-        alert('¡Link copiado! Compártelo con quien quieras 🔥');
-      }
-
-      let votos = { si: 0, no: 0 };
-      function votar(opcion) {
-        votos[opcion]++;
-        const total = votos.si + votos.no;
-        const psi = Math.round((votos.si / total) * 100);
-        const pno = Math.round((votos.no / total) * 100);
-        document.getElementById('resultado-encuesta').textContent =
-          `✅ Sí: ${psi}%  |  ❌ No: ${pno}%  (${total} votos)`;
-      }
-
-      const datos = [
-        "¿Sabías que muchos participantes no se leen el manual academico de debate y la otra cosa de naciones unidas xd?",
-        "¿Sabías que hay delegados que solo van a por las chicas?",
-        "¿Sabías que casi todos los delegados usan chatgpt para el discurso?",
-        "¿Sabías que el chisme viaja más rápido que cualquier resolución en el PLXXX?"
-      ];
-      const aleatorio = datos[Math.floor(Math.random() * datos.length)];
-      document.getElementById('sabiasque').textContent = aleatorio;
-    </script>
-
-  </body>
-</html>
