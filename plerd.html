@@ -5,16 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilos.css">
     <style>
-      /* Animación de entrada */
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
       }
-      .animate {
-        animation: fadeIn 1s ease;
+
+      .animate { 
+        opacity: 0;
+        animation: fadeIn 1.5s ease forwards;
       }
 
-      /* Para celular */
+      .estrellas {
+        font-size: 13px;
+        margin-top: 8px;
+        margin-bottom: 4px;
+      }
+      .estrellas span {
+        display: block;
+        color: #888888;
+        margin-bottom: 2px;
+      }
+      .llena { color: #ff0000; }
+      .vacia { color: #333333; }
+
       @media (max-width: 600px) {
         body { padding: 20px 15px; }
         h1 { font-size: 28px; }
@@ -47,9 +60,11 @@
       🔴 NUEVA HISTORIA DISPONIBLE
     </div>
 
-    <div class="animate">
-      <h1>PLXXX — Lo que no se dice</h1>
-      <p>Un espacio donde se documentan situaciones inusuales ocurridas dentro de las actividades del PLXXX. Todos los relatos son anónimos.</p>
+    <div id="contenido-principal">
+      <div class="animate" id="titulo-animado">
+        <h1>PLXXX — Lo que no se dice</h1>
+        <p>Un espacio donde se documentan situaciones inusuales ocurridas dentro de las actividades del PLXXX. Todos los relatos son anónimos.</p>
+      </div>
     </div>
 
     <!-- Contador de historias -->
@@ -81,11 +96,19 @@
 
     <div class="historia">
       <h3>⭐ Historia #1 <span style="background:#ff0000; color:#fff; font-size:11px; padding:2px 8px; letter-spacing:1px;">DESTACADA</span></h3>
+      <div class="estrellas">
+        <span>💥 Impacto: <span class="llena">★★★</span><span class="vacia">★★</span></span>
+        <span>🔍 Veracidad: <span class="llena">★★</span><span class="vacia">★★★</span></span>
+      </div>
       <p>Había una persona que participaba en cada modelo de naciones unidas que podía, pero no precisamente por vocación diplomática. Su estrategia era simple: llegar temprano para agarrar el mejor sitio en la mesa del almuerzo, desaparecer durante las sesiones plenarias, y reaparecer misteriosamente justo cuando repartían la merienda. Nunca preparaba una resolución, nunca estudiaba el país que representaba, pero sabía exactamente qué se estaba cocinando — y no nos referimos a política internacional. Lo más curioso es que siempre terminaba siendo de los más informados del evento, no por los discursos, sino porque se pasaba los pasillos recopilando cada chisme disponible. Al final del día, mientras otros debatían sobre crisis globales, esta persona ya sabía quién le gustaba a quién, quién había peleado con quién, y qué delegación tenía el mejor lunch. Una leyenda a su manera.</p>
     </div>
 
     <div class="historia">
       <h3>Historia #2</h3>
+      <div class="estrellas">
+        <span>💥 Impacto: <span class="llena">★★★★★</span></span>
+        <span>🔍 Veracidad: <span class="llena">★★★★★</span></span>
+      </div>
       <p>Vi a Gelson robandole el dinero de la merienda a un carajito y le dio dos patas, y dijo que era para el pasaje al campo de donde vive.</p>
     </div>
 
@@ -145,16 +168,18 @@
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
     <script>
-      // Contador
       const historias = document.querySelectorAll('.historia');
       document.getElementById('contador').textContent = historias.length;
 
-      // Términos
       function entrar() {
         document.getElementById('terminos').style.display = 'none';
+        // Reinicia la animación justo al aceptar
+        const el = document.getElementById('titulo-animado');
+        el.style.animation = 'none';
+        el.offsetHeight; // fuerza el reinicio
+        el.style.animation = 'fadeIn 1.5s ease forwards';
       }
 
-      // Historias anteriores
       function toggleHistorias() {
         const div = document.getElementById('historiasViejas');
         const btn = event.target;
@@ -167,7 +192,6 @@
         }
       }
 
-      // Buscador
       function buscar() {
         const texto = document.getElementById('buscador').value.toLowerCase();
         const historias = document.querySelectorAll('.historia');
@@ -180,13 +204,11 @@
         });
       }
 
-      // Compartir
       function compartir() {
         navigator.clipboard.writeText(window.location.href);
         alert('¡Link copiado! Compártelo con quien quieras 🔥');
       }
 
-      // Encuesta
       let votos = { si: 0, no: 0 };
       function votar(opcion) {
         votos[opcion]++;
@@ -197,7 +219,6 @@
           `✅ Sí: ${psi}%  |  ❌ No: ${pno}%  (${total} votos)`;
       }
 
-      // ¿Sabías que?
       const datos = [
         "¿Sabías que muchos participantes no se leen el manual academico de debate y la otra cosa de naciones unidas xd?",
         "¿Sabías que hay delegados que solo van a por las chicas?",
