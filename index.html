@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>PLXXX - Lo que no se dice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        background-color: #0a0a0a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+        font-family: Impact, sans-serif;
+      }
+
+      .particula {
+        position: fixed;
+        background: #ff0000;
+        border-radius: 50%;
+        animation: caer linear infinite;
+        opacity: 0.6;
+      }
+
+      @keyframes caer {
+        0% { transform: translateY(-10px); opacity: 0.6; }
+        100% { transform: translateY(110vh); opacity: 0; }
+      }
+
+      .logo {
+        width: 180px;
+        animation: aparecer 1.5s ease;
+        margin-bottom: 20px;
+        z-index: 1;
+      }
+
+      h1 {
+        color: #ff0000;
+        font-size: 52px;
+        letter-spacing: 6px;
+        text-align: center;
+        animation: aparecer 1.5s ease;
+        z-index: 1;
+        text-shadow: 0 0 20px #ff0000;
+      }
+
+      p {
+        color: #888888;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        letter-spacing: 3px;
+        text-align: center;
+        margin-top: 10px;
+        animation: aparecer 2s ease;
+        z-index: 1;
+        text-transform: uppercase;
+      }
+
+      .linea {
+        width: 200px;
+        height: 2px;
+        background: #ff0000;
+        margin: 25px auto;
+        animation: expandir 1.5s ease;
+        z-index: 1;
+      }
+
+      @keyframes expandir {
+        from { width: 0; }
+        to { width: 200px; }
+      }
+
+      .btn {
+        background: transparent;
+        color: #ff0000;
+        border: 2px solid #ff0000;
+        padding: 14px 40px;
+        font-family: Impact;
+        font-size: 18px;
+        letter-spacing: 4px;
+        cursor: pointer;
+        animation: aparecer 2.5s ease;
+        z-index: 1;
+        transition: all 0.3s;
+        text-transform: uppercase;
+      }
+
+      .btn:hover {
+        background: #ff0000;
+        color: #ffffff;
+        box-shadow: 0 0 20px #ff0000;
+      }
+
+      @keyframes aparecer {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Pantallas */
+      .pantalla {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: #0a0a0a;
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+      }
+
+      .pantalla h2 {
+        color: #ff0000;
+        font-family: Impact;
+        letter-spacing: 3px;
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .pantalla p {
+        color: #cccccc;
+        max-width: 500px;
+        text-align: center;
+        line-height: 1.8;
+        font-family: Arial;
+        letter-spacing: 1px;
+        text-transform: none;
+        margin-bottom: 20px;
+      }
+
+      .pantalla input {
+        background: #1a1a1a;
+        border: 1px solid #ff0000;
+        color: #ffffff;
+        padding: 12px 20px;
+        font-size: 18px;
+        text-align: center;
+        letter-spacing: 4px;
+        font-family: Impact;
+        width: 200px;
+        margin-bottom: 15px;
+      }
+
+      .error {
+        color: #ff0000;
+        font-family: Arial;
+        font-size: 13px;
+        display: none;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Pantalla 1 — Términos -->
+    <div class="pantalla" id="pantalla-terminos">
+      <h2>⚠️ AVISO</h2>
+      <p>El contenido de esta página refleja experiencias y opiniones anónimas de terceros. Los administradores de este sitio <strong style="color:#ff0000;">no se hacen responsables</strong> por la veracidad de los relatos publicados. Al entrar aceptas que entiendes esto.</p>
+      <button class="btn" onclick="aceptarTerminos()">ACEPTO — CONTINUAR</button>
+    </div>
+
+    <!-- Pantalla 2 — Contraseña -->
+    <div class="pantalla" id="pantalla-contra" style="display:none;">
+      <h2>🔐 ACCESO RESTRINGIDO</h2>
+      <p style="color:#ff0000; font-family:Arial; letter-spacing:1px; text-transform:none;">¿Cuál es el abreviativo de la Comisión Organización Mundial de la Salud?</p>
+      <input id="inputContra" type="text" placeholder="Tu respuesta..." maxlength="10">
+      <p class="error" id="error-contra">❌ Respuesta incorrecta. Inténtalo de nuevo.</p>
+      <button class="btn" onclick="verificarContra()">ENTRAR</button>
+    </div>
+
+    <!-- Contenido de inicio -->
+    <img class="logo" src="logo-plxxx.svg" alt="Logo PLXXX">
+    <h1>PLXXX</h1>
+    <p>Lo que no se dice</p>
+    <div class="linea"></div>
+    <button class="btn" onclick="location.href='plerd.html'">VER HISTORIAS</button>
+
+    <script>
+      // Partículas
+      for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particula');
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 4 + 3) + 's';
+        p.style.animationDelay = (Math.random() * 5) + 's';
+        p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
+        document.body.appendChild(p);
+      }
+
+      // Aceptar términos
+      function aceptarTerminos() {
+        document.getElementById('pantalla-terminos').style.display = 'none';
+        document.getElementById('pantalla-contra').style.display = 'flex';
+      }
+
+      // Verificar contraseña
+      function verificarContra() {
+        const respuesta = document.getElementById('inputContra').value.trim().toUpperCase();
+        if (respuesta === 'OMS') {
+          document.getElementById('pantalla-contra').style.display = 'none';
+        } else {
+          document.getElementById('error-contra').style.display = 'block';
+          document.getElementById('inputContra').value = '';
+        }
+      }
+
+      // Enter para verificar
+      document.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') verificarContra();
+      });
+    </script>
+
+  </body>
+</html>
