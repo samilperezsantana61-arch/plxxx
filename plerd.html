@@ -28,7 +28,6 @@
       .llena { color: #ff0000; }
       .vacia { color: #333333; }
 
-      /* Pantallas */
       .pantalla {
         position: fixed;
         top: 0; left: 0;
@@ -62,21 +61,6 @@
         margin-bottom: 20px;
       }
 
-      .pantalla input {
-        background: #1a1a1a;
-        border: 1px solid #ff0000;
-        color: #ffffff;
-        padding: 12px 20px;
-        font-size: 18px;
-        text-align: center;
-        letter-spacing: 4px;
-        font-family: Impact;
-        width: 100%;
-        max-width: 250px;
-        margin-bottom: 15px;
-        box-sizing: border-box;
-      }
-
       .pantalla button {
         background: #ff0000;
         color: #ffffff;
@@ -89,7 +73,6 @@
         max-width: 250px;
       }
 
-      /* Celular */
       @media (max-width: 600px) {
         body {
           padding: 15px 12px !important;
@@ -109,18 +92,10 @@
           width: 100% !important;
           box-sizing: border-box;
         }
-        img {
-          width: 100px !important;
-        }
-        .historia {
-          padding: 10px 0;
-        }
-        .pantalla {
-          padding: 20px 15px;
-        }
-        .pantalla h1 {
-          font-size: 22px !important;
-        }
+        img { width: 100px !important; }
+        .historia { padding: 10px 0; }
+        .pantalla { padding: 20px 15px; }
+        .pantalla h1 { font-size: 22px !important; }
       }
     </style>
   </head>
@@ -128,20 +103,11 @@
 
     <img src="logo-plxxx.svg" alt="Logo PLXXX" style="width:150px; display:block; margin: 20px auto;">
 
-    <!-- Pantalla 1 — Términos -->
+    <!-- Pantalla — Términos (sin contraseña, solo aceptar) -->
     <div class="pantalla" id="terminos">
       <h1>⚠️ AVISO</h1>
       <p>El contenido de esta página refleja experiencias y opiniones anónimas de terceros. Los administradores de este sitio <strong style="color:#ff0000;">no se hacen responsables</strong> por la veracidad de los relatos publicados. Al entrar aceptas que entiendes esto.</p>
-      <button onclick="aceptarTerminos()">ACEPTO — CONTINUAR</button>
-    </div>
-
-    <!-- Pantalla 2 — Contraseña -->
-    <div class="pantalla" id="pantalla-contra" style="display:none;">
-      <h2>🔐 ACCESO RESTRINGIDO</h2>
-      <p style="color:#ff0000;">¿Cuál es el abreviativo de la Comisión Organización Mundial de la Salud?</p>
-      <input id="inputContra" type="text" placeholder="Tu respuesta..." maxlength="10">
-      <p id="error-contra" style="color:#ff0000; font-size:13px; display:none; margin-bottom:10px;">❌ Respuesta incorrecta.</p>
-      <button onclick="verificarContra()">ENTRAR</button>
+      <button onclick="entrar()">ACEPTO — ENTRAR</button>
     </div>
 
     <!-- Banner -->
@@ -150,7 +116,7 @@
     </div>
 
     <!-- Título animado -->
-    <div id="titulo-animado" class="animate" style="opacity:0;">
+    <div id="titulo-animado" style="opacity:0;">
       <h1>PLXXX — Lo que no se dice</h1>
       <p>Un espacio donde se documentan situaciones inusuales ocurridas dentro de las actividades del PLXXX. Todos los relatos son anónimos.</p>
     </div>
@@ -187,8 +153,8 @@
     <div class="historia">
       <h3>⭐ Historia #1 <span style="background:#ff0000; color:#fff; font-size:11px; padding:2px 8px; letter-spacing:1px;">DESTACADA</span></h3>
       <div class="estrellas">
-        <span>💥 Impacto: <span class="llena">★★★</span><span class="vacia">★★</span></span>
-        <span>🔍 Veracidad: <span class="llena">★★</span><span class="vacia">★★★</span></span>
+        <span>💥 Impacto: <span class="llena">★★★</span><span class="vacia">/★★</span></span>
+        <span>🔍 Veracidad: <span class="llena">★★</span><span class="vacia">/★★★</span></span>
       </div>
       <p>Había una persona que participaba en cada modelo de naciones unidas que podía, pero no precisamente por vocación diplomática. Su estrategia era simple: llegar temprano para agarrar el mejor sitio en la mesa del almuerzo, desaparecer durante las sesiones plenarias, y reaparecer misteriosamente justo cuando repartían la merienda. Nunca preparaba una resolución, nunca estudiaba el país que representaba, pero sabía exactamente qué se estaba cocinando — y no nos referimos a política internacional. Lo más curioso es que siempre terminaba siendo de los más informados del evento, no por los discursos, sino porque se pasaba los pasillos recopilando cada chisme disponible. Al final del día, mientras otros debatían sobre crisis globales, esta persona ya sabía quién le gustaba a quién, quién había peleado con quién, y qué delegación tenía el mejor lunch. Una leyenda a su manera.</p>
     </div>
@@ -253,3 +219,65 @@
         s.src = 'https://plxxx-lo-que-no-se-dice.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    <script>
+      const historias = document.querySelectorAll('.historia');
+      document.getElementById('contador').textContent = historias.length;
+
+      function entrar() {
+        document.getElementById('terminos').style.display = 'none';
+        const el = document.getElementById('titulo-animado');
+        el.style.animation = 'none';
+        el.offsetHeight;
+        el.style.animation = 'fadeIn 1.5s ease forwards';
+      }
+
+      function toggleHistorias() {
+        const div = document.getElementById('historiasViejas');
+        const btn = event.target;
+        if (div.style.display === 'none') {
+          div.style.display = 'block';
+          btn.textContent = 'OCULTAR';
+        } else {
+          div.style.display = 'none';
+          btn.textContent = 'VER';
+        }
+      }
+
+      function buscar() {
+        const texto = document.getElementById('buscador').value.toLowerCase();
+        const historias = document.querySelectorAll('.historia');
+        historias.forEach(h => {
+          if (h.textContent.toLowerCase().includes(texto)) {
+            h.style.display = 'block';
+          } else {
+            h.style.display = 'none';
+          }
+        });
+      }
+
+      function compartir() {
+        navigator.clipboard.writeText(window.location.href);
+        alert('¡Link copiado! Compártelo con quien quieras 🔥');
+      }
+
+      let votos = { si: 0, no: 0 };
+      function votar(opcion) {
+        votos[opcion]++;
+        const total = votos.si + votos.no;
+        const psi = Math.round((votos.si / total) * 100);
+        const pno = Math.round((votos.no / total) * 100);
+        document.getElementById('resultado-encuesta').textContent =
+          `✅ Sí: ${psi}%  |  ❌ No: ${pno}%  (${total} votos)`;
+      }
+
+      const datos = [
+        "¿Sabías que muchos participantes no se leen el manual academico de debate y la otra cosa de naciones unidas xd?",
+        "¿Sabías que hay delegados que solo van a por las chicas?",
+        "¿Sabías que casi todos los delegados usan chatgpt para el discurso?",
+        "¿Sabías que el chisme viaja más rápido que cualquier resolución en el PLXXX?"
+      ];
+      const aleatorio = datos[Math.floor(Math.random() * datos.length)];
