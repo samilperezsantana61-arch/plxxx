@@ -11,7 +11,6 @@
       }
 
       .animate {
-        opacity: 0;
         animation: fadeIn 1.5s ease forwards;
       }
 
@@ -27,51 +26,6 @@
       }
       .llena { color: #ff0000; }
       .vacia { color: #333333; }
-
-      .pantalla {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: #0a0a0a;
-        z-index: 999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 30px 20px;
-        box-sizing: border-box;
-        overflow-y: auto;
-      }
-
-      .pantalla h1, .pantalla h2 {
-        color: #ff0000;
-        font-family: Impact;
-        letter-spacing: 3px;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      .pantalla p {
-        color: #cccccc;
-        max-width: 500px;
-        text-align: center;
-        line-height: 1.8;
-        font-family: Arial;
-        font-size: 14px;
-        margin-bottom: 20px;
-      }
-
-      .pantalla button {
-        background: #ff0000;
-        color: #ffffff;
-        border: none;
-        padding: 12px 30px;
-        font-size: 16px;
-        cursor: pointer;
-        letter-spacing: 2px;
-        width: 100%;
-        max-width: 250px;
-      }
 
       @media (max-width: 600px) {
         body {
@@ -94,8 +48,6 @@
         }
         img { width: 100px !important; }
         .historia { padding: 10px 0; }
-        .pantalla { padding: 20px 15px; }
-        .pantalla h1 { font-size: 22px !important; }
       }
     </style>
   </head>
@@ -103,20 +55,12 @@
 
     <img src="logo-plxxx.svg" alt="Logo PLXXX" style="width:150px; display:block; margin: 20px auto;">
 
-    <!-- Pantalla — Términos (sin contraseña, solo aceptar) -->
-    <div class="pantalla" id="terminos">
-      <h1>⚠️ AVISO</h1>
-      <p>El contenido de esta página refleja experiencias y opiniones anónimas de terceros. Los administradores de este sitio <strong style="color:#ff0000;">no se hacen responsables</strong> por la veracidad de los relatos publicados. Al entrar aceptas que entiendes esto.</p>
-      <button onclick="entrar()">ACEPTO — ENTRAR</button>
-    </div>
-
     <!-- Banner -->
     <div style="background:#ff0000; color:#ffffff; text-align:center; padding:10px; font-family:Impact; letter-spacing:3px; font-size:16px; margin-bottom:10px;">
       🔴 NUEVA HISTORIA DISPONIBLE
     </div>
 
-    <!-- Título animado -->
-    <div id="titulo-animado" style="opacity:0;">
+    <div class="animate">
       <h1>PLXXX — Lo que no se dice</h1>
       <p>Un espacio donde se documentan situaciones inusuales ocurridas dentro de las actividades del PLXXX. Todos los relatos son anónimos.</p>
     </div>
@@ -153,8 +97,8 @@
     <div class="historia">
       <h3>⭐ Historia #1 <span style="background:#ff0000; color:#fff; font-size:11px; padding:2px 8px; letter-spacing:1px;">DESTACADA</span></h3>
       <div class="estrellas">
-        <span>💥 Impacto: <span class="llena">★★★</span><span class="vacia">/★★</span></span>
-        <span>🔍 Veracidad: <span class="llena">★★</span><span class="vacia">/★★★</span></span>
+        <span>💥 Impacto: <span class="llena">★★★</span><span class="vacia">★★</span></span>
+        <span>🔍 Veracidad: <span class="llena">★★</span><span class="vacia">★★★</span></span>
       </div>
       <p>Había una persona que participaba en cada modelo de naciones unidas que podía, pero no precisamente por vocación diplomática. Su estrategia era simple: llegar temprano para agarrar el mejor sitio en la mesa del almuerzo, desaparecer durante las sesiones plenarias, y reaparecer misteriosamente justo cuando repartían la merienda. Nunca preparaba una resolución, nunca estudiaba el país que representaba, pero sabía exactamente qué se estaba cocinando — y no nos referimos a política internacional. Lo más curioso es que siempre terminaba siendo de los más informados del evento, no por los discursos, sino porque se pasaba los pasillos recopilando cada chisme disponible. Al final del día, mientras otros debatían sobre crisis globales, esta persona ya sabía quién le gustaba a quién, quién había peleado con quién, y qué delegación tenía el mejor lunch. Una leyenda a su manera.</p>
     </div>
@@ -227,14 +171,6 @@
       const historias = document.querySelectorAll('.historia');
       document.getElementById('contador').textContent = historias.length;
 
-      function entrar() {
-        document.getElementById('terminos').style.display = 'none';
-        const el = document.getElementById('titulo-animado');
-        el.style.animation = 'none';
-        el.offsetHeight;
-        el.style.animation = 'fadeIn 1.5s ease forwards';
-      }
-
       function toggleHistorias() {
         const div = document.getElementById('historiasViejas');
         const btn = event.target;
@@ -281,3 +217,8 @@
         "¿Sabías que el chisme viaja más rápido que cualquier resolución en el PLXXX?"
       ];
       const aleatorio = datos[Math.floor(Math.random() * datos.length)];
+      document.getElementById('sabiasque').textContent = aleatorio;
+    </script>
+
+  </body>
+</html>
