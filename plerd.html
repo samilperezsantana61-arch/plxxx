@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilos.css">
     <style>
+      .particula {
+  position: fixed;
+  background: #ff0000;
+  border-radius: 50%;
+  animation: caer linear infinite;
+  opacity: 0.4;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes caer {
+  from { transform: translateY(-10px); opacity: 0.4; }
+  to { transform: translateY(110vh); opacity: 0; }
+}
+
+/* Para que el contenido quede encima de las partículas */
+body > *:not(.particula) {
+  position: relative;
+  z-index: 1;
+}
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -168,6 +188,16 @@
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
     <script>
+      // Partículas de fondo
+for (let i = 0; i < 40; i++) {
+  const p = document.createElement('div');
+  p.classList.add('particula');
+  p.style.left = Math.random() * 100 + 'vw';
+  p.style.animationDuration = (Math.random() * 4 + 3) + 's';
+  p.style.animationDelay = (Math.random() * 5) + 's';
+  p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
+  document.body.appendChild(p);
+}
       const historias = document.querySelectorAll('.historia');
       document.getElementById('contador').textContent = historias.length;
 
