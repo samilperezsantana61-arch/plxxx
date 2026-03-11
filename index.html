@@ -152,7 +152,6 @@
         margin-bottom: 10px;
       }
 
-      /* Contador */
       .contador-box {
         display: flex;
         gap: 20px;
@@ -198,19 +197,18 @@
   </head>
   <body>
 
-    <!-- Pantalla contador — se muestra si no ha llegado a 0 -->
+    <!-- Pantalla contador -->
     <div id="pantalla-contador" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#0a0a0a; z-index:998; flex-direction:column; align-items:center; justify-content:center;">
       <img src="logo-plxxx.svg" style="width:150px; margin-bottom:20px; z-index:1;">
       <h1 style="z-index:1;">PLXXX</h1>
       <div class="linea"></div>
-      <p class="proximamente">🔴 Próximamente, !Manda tu historia!.</p>
+      <p class="proximamente">🔴 Próximamente, ¡Manda tu historia!</p>
       <div class="contador-box">
         <div class="unidad"><span class="numero" id="dias">00</span><span class="label">Días</span></div>
         <div class="unidad"><span class="numero" id="horas">00</span><span class="label">Horas</span></div>
         <div class="unidad"><span class="numero" id="minutos">00</span><span class="label">Minutos</span></div>
         <div class="unidad"><span class="numero" id="segundos">00</span><span class="label">Segundos</span></div>
       </div>
-
       <p style="color:#888888; font-family:Arial; font-size:13px; letter-spacing:2px; text-transform:uppercase; margin-bottom:15px; z-index:1;">¿Tienes una historia? Mándala antes de la apertura</p>
       <button class="btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScJXa2MnkqdpDf5YPSnR5CqCqTky10bjcARLaUrjzVdtqr2GA/viewform?usp=publish-editor', '_blank')" style="z-index:1;">
         📩 ENVIAR HISTORIA
@@ -241,21 +239,6 @@
     <button class="btn" onclick="location.href='plerd.html'">VER HISTORIAS</button>
 
     <script>
-      // Código secreto para saltarse el contador
-const urlParams = new URLSearchParams(window.location.search);
-const codigoSecreto = urlParams.get('code');
-
-if (codigoSecreto === '081125') {
-  document.getElementById('pantalla-contador').style.display = 'none';
-  document.getElementById('pantalla-terminos').style.display = 'flex';
-}
-```
-
----
-
-## Para entrar sin contador usa esta URL:
-```
-bit.ly/PLxxx?code=081125
       // Partículas
       for (let i = 0; i < 40; i++) {
         const p = document.createElement('div');
@@ -267,17 +250,36 @@ bit.ly/PLxxx?code=081125
         document.body.appendChild(p);
       }
 
+      // Código secreto para saltarse el contador
+      const urlParams = new URLSearchParams(window.location.search);
+      const codigoSecreto = urlParams.get('code');
+
       // Fecha de lanzamiento — 3 días desde ahora
       const lanzamiento = new Date();
       lanzamiento.setDate(lanzamiento.getDate() + 3);
       lanzamiento.setHours(0, 0, 0, 0);
+
+      const ahora = new Date().getTime();
+      const distancia = lanzamiento - ahora;
+
+      if (codigoSecreto === '081125') {
+        // Código secreto — saltar contador
+        document.getElementById('pantalla-terminos').style.display = 'flex';
+      } else if (distancia > 0) {
+        // Mostrar contador
+        document.getElementById('pantalla-contador').style.display = 'flex';
+        actualizarContador();
+        setInterval(actualizarContador, 1000);
+      } else {
+        // Contador terminó
+        document.getElementById('pantalla-terminos').style.display = 'flex';
+      }
 
       function actualizarContador() {
         const ahora = new Date().getTime();
         const distancia = lanzamiento - ahora;
 
         if (distancia <= 0) {
-          // Contador llegó a 0 — mostrar página normal
           document.getElementById('pantalla-contador').style.display = 'none';
           document.getElementById('pantalla-terminos').style.display = 'flex';
           return;
@@ -294,27 +296,11 @@ bit.ly/PLxxx?code=081125
         document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
       }
 
-      // Verificar si el contador ya terminó
-      const ahora = new Date().getTime();
-      const distancia = lanzamiento - ahora;
-
-      if (distancia > 0) {
-        // Mostrar contador
-        document.getElementById('pantalla-contador').style.display = 'flex';
-        actualizarContador();
-        setInterval(actualizarContador, 1000);
-      } else {
-        // Ya terminó, mostrar términos
-        document.getElementById('pantalla-terminos').style.display = 'flex';
-      }
-
-      // Aceptar términos
       function aceptarTerminos() {
         document.getElementById('pantalla-terminos').style.display = 'none';
         document.getElementById('pantalla-contra').style.display = 'flex';
       }
 
-      // Verificar contraseña
       function verificarContra() {
         const respuesta = document.getElementById('inputContra').value.trim().toUpperCase();
         if (respuesta === 'OMS') {
@@ -330,9 +316,6 @@ bit.ly/PLxxx?code=081125
         if (e.key === 'Enter') verificarContra();
       });
     </script>
-
-  </body>
-</html>
 
   </body>
 </html>
